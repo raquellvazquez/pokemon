@@ -22,22 +22,25 @@ export const Navbar = () => {
             height={70}
         />
         <NextLink href="/" passHref>
-          <Link>
-            <Text color="white" h2>
+          {/* <Link> */}
+          <div style={{display: 'flex', alignItems: 'center'}}>
+          <Text color="white" h2>
                 P
             </Text>
             <Text color="white" h3>
                 okémon
             </Text>
-          </Link>
+          </div>
+            
+          {/* </Link> */}
         </NextLink>
         <Spacer css={{flex: 1}} />
         <NextLink href="/favorites" passHref>
-          <Link>
+          {/* <Link> */}
             <Text color="white" h3>
                 Favoritos
             </Text>
-          </Link>
+          {/* </Link> */}
         </NextLink>
     </div>
   )

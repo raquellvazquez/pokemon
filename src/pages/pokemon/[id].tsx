@@ -5,6 +5,7 @@ import { pokeApi } from '../../../api';
 import { Layout } from '../../../components/layouts';
 import { Button, Card, Grid, Text, Container, Image} from '@nextui-org/react';
 import { localStorageFavorites } from '../../../utils';
+import conffeti from 'canvas-confetti';
 
 interface Props {
   pokemon: Pokemon;
@@ -17,6 +18,19 @@ const PokemonPage : NextPage<Props> = ({pokemon}) => {
   const onToggleFavorite = () => {
     localStorageFavorites.toggleFavorite(pokemon.id);
     setIsInFavorites(!isInFavorites);
+
+    if(!isInFavorites) {
+      conffeti({
+        zIndex: 999,
+        particleCount: 100,
+        spread: 160,
+        angle: -100,
+        origin: {
+          x: 1,
+          y: 0        
+        }
+      })
+    }
   } 
 
   return (

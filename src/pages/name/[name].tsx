@@ -4,7 +4,7 @@ import { pokeApi } from '../../../api';
 import { Pokemon, PokemonListResponse } from '../../../interfaces';
 import { Layout } from '../../../components/layouts';
 import { Button, Card, Grid, Text, Container, Image} from '@nextui-org/react';
-import { localStorageFavorites } from '../../../utils';
+import { getPokemonInfo, localStorageFavorites } from '../../../utils';
 import conffeti from 'canvas-confetti';
 
 interface Props {
@@ -109,11 +109,9 @@ export const getStaticProps : GetStaticProps = async ({params}) => {
   //parametro que recibimos por la url
     const {name} = params as {name: string};
 
-    const {data} = await pokeApi.get<Pokemon>(`/pokemon/${name}`);
-
     return {
       props: {
-        pokemon: data
+        pokemon: await getPokemonInfo(name)
       }, // will be passed to the page component as props
     }
   }

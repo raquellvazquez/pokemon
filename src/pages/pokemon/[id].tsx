@@ -104,7 +104,9 @@ export const getStaticPaths : GetStaticPaths = async (ctx) => {
       paths: pokemonPaths.map(id => ({
         params: { id}
       })),
-      fallback: false, //si el url no esta definida permite mostrar un 404
+      //fallback: false, //si el url no esta definida permite mostrar un 404
+      // Incremental static generation, para no mostar un 404 cuando querramos buscar un nuevo pokemon
+      fallback: 'blocking'
     }
 }
 
@@ -115,14 +117,29 @@ export const getStaticPaths : GetStaticPaths = async (ctx) => {
  * En build time se genera toda la información
  */
 
+
+
 export const getStaticProps : GetStaticProps = async ({params}) => {
   
     const {id} = params as {id: string};
 
+    const pokemon = await getPokemonInfo(id)
+
+    if(!pokemon) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false
+        }
+      }
+    }
+  
     return {
       props: {
-        pokemon:  await getPokemonInfo(id)
+        pokemon
       }, // will be passed to the page component as props
+      // Incremental static regeneration: actualizara la pagina en el primer request cada 24 horas
+      revalidate: 86400  //segundos
     }
   }
 export default PokemonPage;
